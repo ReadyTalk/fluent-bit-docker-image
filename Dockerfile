@@ -1,12 +1,8 @@
-FROM gcr.io/google-containers/debian-base-amd64:0.1
-MAINTAINER Eduardo Silva <eduardo@treasure-data.com>
-LABEL Description="Fluent Bit docker image" Vendor="Fluent Organization" Version="1.1"
+FROM debian:stretch-slim
+MAINTAINER Chris Bartlett <bartlettc@gmail.com>
 
 # Fluent Bit version
-ENV FLB_MAJOR 0
-ENV FLB_MINOR 12
-ENV FLB_PATCH 0
-ENV FLB_VERSION 0.12.1
+ENV FLB_VERSION 0.12.4
 
 ENV FLB_TARBALL http://github.com/fluent/fluent-bit/archive/v$FLB_VERSION.zip
 
@@ -39,9 +35,9 @@ RUN apt-get -qq update \
     && rm -rf /tmp/*
 
 # Configuration files
-COPY fluent-bit.conf /fluent-bit/etc/
-COPY parsers.conf /fluent-bit/etc/
-COPY parsers_java.conf /fluent-bit/etc/
+COPY config/fluent-bit.conf /fluent-bit/etc/
+COPY config/parsers.conf /fluent-bit/etc/
+COPY config/parsers_java.conf /fluent-bit/etc/
 
 # Entry point
 CMD ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluent-bit.conf"]
